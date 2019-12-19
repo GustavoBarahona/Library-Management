@@ -1,13 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package library.assistant.ui.listbook;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.layout.AnchorPane;
 
 /**
  * FXML Controller class
@@ -15,6 +15,21 @@ import javafx.fxml.Initializable;
  * @author Sistemas
  */
 public class BookListController implements Initializable {
+
+    @FXML
+    private AnchorPane rootPane;
+    @FXML
+    private TableView<?> tableView;
+    @FXML
+    private TableColumn<?, ?> titleCol;
+    @FXML
+    private TableColumn<?, ?> idCol;
+    @FXML
+    private TableColumn<?, ?> authorCol;
+    @FXML
+    private TableColumn<?, ?> publisherCol;
+    @FXML
+    private TableColumn<?, ?> availabilityCol;
 
     /**
      * Initializes the controller class.
