@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 
 public class DatabaseHandler {
     
+    private static DatabaseHandler handler = null;
     
     private Statement statement;
     private Connection connection;
@@ -25,8 +26,19 @@ public class DatabaseHandler {
         this.connection = connection;
     }
     
-    public DatabaseHandler(){
+//    public DatabaseHandler(){
+//        establecerConexion();
+//    }
+    
+    private DatabaseHandler(){
         establecerConexion();
+    }
+    
+    public static DatabaseHandler getInstance(){
+        if(handler == null){
+            handler = new DatabaseHandler();
+        }
+        return handler;
     }
     
     public void establecerConexion(){
@@ -62,7 +74,7 @@ public class DatabaseHandler {
     public boolean excecAction(String query){
         try {
             statement = connection.createStatement();
-            statement.executeQuery(query);
+            statement.execute(query);
             return true;
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error:" + e.getMessage(), "Error ocurrido", JOptionPane.ERROR_MESSAGE);

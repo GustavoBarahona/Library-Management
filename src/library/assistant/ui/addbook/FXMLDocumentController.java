@@ -43,7 +43,8 @@ public class FXMLDocumentController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        databasehandler = new DatabaseHandler();
+        //databasehandler = new DatabaseHandler();
+        databasehandler = DatabaseHandler.getInstance();
         chekData();
     }
 
