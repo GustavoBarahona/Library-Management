@@ -170,9 +170,9 @@
                            <children>
                               <BorderPane layoutX="93.0" layoutY="44.0" prefHeight="302.0" prefWidth="500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <top>
-                                    <JFXTextField fx:id="bookID" minWidth="-Infinity" onAction="#loadBookInfo2" prefHeight="25.0" prefWidth="10.0" promptText="Enter Book ID" BorderPane.alignment="CENTER">
+                                    <JFXTextField fx:id="bookID" labelFloat="true" minWidth="-Infinity" onAction="#loadBookInfo2" prefHeight="25.0" prefWidth="10.0" promptText="Enter Book ID" BorderPane.alignment="CENTER">
                                        <BorderPane.margin>
-                                          <Insets left="120.0" right="120.0" />
+                                          <Insets left="120.0" right="120.0" top="20.0" />
                                        </BorderPane.margin>
                                     </JFXTextField>
                                  </top>
@@ -193,7 +193,7 @@
                                              <HBox.margin>
                                                 <Insets right="10.0" />
                                              </HBox.margin></JFXButton>
-                                          <JFXButton styleClass="setup-button" stylesheets="@main.css" text="Submission" />
+                                          <JFXButton onAction="#loadSubmissionOp" styleClass="setup-button" stylesheets="@main.css" text="Submission" />
                                        </children>
                                     </HBox>
                                  </bottom>

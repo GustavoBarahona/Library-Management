@@ -61,6 +61,8 @@ public class MainController implements Initializable {
     private JFXTextField bookID;
     @FXML
     private ListView<String> issueDataList;
+    
+    Boolean isRedyForSub = false;
 
     /**
      * Initializes the controller class.
@@ -208,6 +210,7 @@ public class MainController implements Initializable {
     private void loadBookInfo2(ActionEvent event) {
 
         ObservableList<String> issuData = FXCollections.observableArrayList();
+        isRedyForSub = false;
 
         String id = bookID.getText();
         String query = "SELECT * FROM issue WHERE bookID = '" + id + "'";
@@ -219,27 +222,29 @@ public class MainController implements Initializable {
                 Timestamp mIssueTime = rs.getTimestamp("issueTime");
                 int mRenewCount = rs.getInt("renew_count");
 
-                issuData.add("Issue Data and Time: " + mIssueTime.toGMTString());
-                issuData.add("Renew Count: " + mRenewCount);
-                issuData.add("Book Informacion:- ");
+                issuData.add("  Issue Data and Time: " + mIssueTime.toGMTString());
+                issuData.add("  Renew Count: " + mRenewCount);
+                issuData.add("\nBook Informacion:- ");
 
                 query = "SELECT * FROM book WHERE id = '" + mBookID + "'";
                 ResultSet r1 = handler.excecQuery(query);
                 while (r1.next()) {
-                    issuData.add("Book Name: " + r1.getString("title"));
-                    issuData.add("Book ID: " + r1.getString("id"));
-                    issuData.add("Book Author: " + r1.getString("author"));
-                    issuData.add("Book Publisher: " + r1.getString("publisher"));
+                    issuData.add("  Book Name: " + r1.getString("title"));
+                    issuData.add("  Book ID: " + r1.getString("id"));
+                    issuData.add("  Book Author: " + r1.getString("author"));
+                    issuData.add("  Book Publisher: " + r1.getString("publisher"));
                 }
 
                 query = "SELECT * FROM member WHERE id = '" + mMemberID + "'";
                 r1 = handler.excecQuery(query);
-                issuData.add("Member Information:- ");
+                issuData.add("\nMember Information:- ");
                 while (r1.next()) {
-                    issuData.add("Name: " + r1.getString("name"));
-                    issuData.add("Mobile: " + r1.getString("mobile"));
-                    issuData.add("Email: " + r1.getString("email"));
+                    issuData.add("  Name: " + r1.getString("name"));
+                    issuData.add("  Mobile: " + r1.getString("mobile"));
+                    issuData.add("  Email: " + r1.getString("email"));
                 }
+                
+                isRedyForSub = true;
             }
         } catch (SQLException e) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, e);
@@ -247,5 +252,38 @@ public class MainController implements Initializable {
         
         issueDataList.getItems().setAll(issuData);
     }//Fin método loadBookInfo2
+
+    @FXML
+    private void loadSubmissionOp(ActionEvent event) {
+        if(!isRedyForSub){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Failed");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a book to submit");
+            
+            alert.showAndWait();
+            return;
+        }
+        
+        String id = bookID.getText();
+        String ac1 = "DELETE FROM issue WHERE bookid = '"+id+"'";
+        String ac2 = "UPDATE book SET isavail = true WHERE id = '"+id+"'";
+        
+        if(handler.excecAction(ac1)&&handler.excecAction(ac2)){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Succes");
+            alert.setHeaderText(null);
+            alert.setContentText("Book has been submitted");
+            
+            alert.showAndWait();
+        }else{
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Failed");
+            alert.setHeaderText(null);
+            alert.setContentText("Submitted has been failed");
+            
+            alert.showAndWait();            
+        }
+    }
 
 }
