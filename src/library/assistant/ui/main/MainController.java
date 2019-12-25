@@ -61,7 +61,7 @@ public class MainController implements Initializable {
     private JFXTextField bookID;
     @FXML
     private ListView<String> issueDataList;
-    
+
     Boolean isRedyForSub = false;
 
     /**
@@ -243,47 +243,108 @@ public class MainController implements Initializable {
                     issuData.add("  Mobile: " + r1.getString("mobile"));
                     issuData.add("  Email: " + r1.getString("email"));
                 }
-                
+
                 isRedyForSub = true;
             }
         } catch (SQLException e) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, e);
         }
-        
+
         issueDataList.getItems().setAll(issuData);
     }//Fin método loadBookInfo2
 
     @FXML
     private void loadSubmissionOp(ActionEvent event) {
-        if(!isRedyForSub){
+        if (!isRedyForSub) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Failed");
             alert.setHeaderText(null);
             alert.setContentText("Please select a book to submit");
-            
+
+            alert.showAndWait();
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm Submission Operation");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure want to return the book?");
+
+        Optional<ButtonType> response = alert.showAndWait();
+        if (response.get() == ButtonType.OK) {
+
+            String id = bookID.getText();
+            String ac1 = "DELETE FROM issue WHERE bookid = '" + id + "'";
+            String ac2 = "UPDATE book SET isavail = true WHERE id = '" + id + "'";
+
+            if (handler.excecAction(ac1) && handler.excecAction(ac2)) {
+                Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
+                alert1.setTitle("Succes");
+                alert1.setHeaderText(null);
+                alert1.setContentText("Book has been submitted");
+
+                alert1.showAndWait();
+            } else {
+                Alert alert1 = new Alert(Alert.AlertType.ERROR);
+                alert1.setTitle("Failed");
+                alert1.setHeaderText(null);
+                alert1.setContentText("Submitted has been failed");
+
+                alert1.showAndWait();
+            }
+        } else {
+            Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
+            alert1.setTitle("Cancelled");
+            alert1.setHeaderText(null);
+            alert1.setContentText("Submission operation cancelled");
+            alert1.showAndWait();
+        }
+    }
+
+    @FXML
+    private void loadRenewOp(ActionEvent event) {
+        
+        if (!isRedyForSub) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Failed");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a book to renew");
+
             alert.showAndWait();
             return;
         }
         
-        String id = bookID.getText();
-        String ac1 = "DELETE FROM issue WHERE bookid = '"+id+"'";
-        String ac2 = "UPDATE book SET isavail = true WHERE id = '"+id+"'";
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm Renew Operation");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure want to retew the book?");
         
-        if(handler.excecAction(ac1)&&handler.excecAction(ac2)){
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Succes");
-            alert.setHeaderText(null);
-            alert.setContentText("Book has been submitted");
-            
-            alert.showAndWait();
+        Optional<ButtonType> response = alert.showAndWait();
+        if (response.get() == ButtonType.OK) {
+            String ac = "UPDATE issue SET issueTime = CURRENT_TIMESTAMP, renew_count = renew_count + 1 WHERE bookID = '"+bookID.getText()+"'";
+            System.out.println(ac);
+            if (handler.excecAction(ac)) {
+                Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
+                alert1.setTitle("Succes");
+                alert1.setHeaderText(null);
+                alert1.setContentText("Book has been renewed");
+
+                alert1.showAndWait();
+            } else {
+                Alert alert1 = new Alert(Alert.AlertType.ERROR);
+                alert1.setTitle("Failed");
+                alert1.setHeaderText(null);
+                alert1.setContentText("Renew has been Failed");
+
+                alert1.showAndWait();
+            }
         }else{
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Failed");
-            alert.setHeaderText(null);
-            alert.setContentText("Submitted has been failed");
-            
-            alert.showAndWait();            
+            Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
+            alert1.setTitle("Cancelled");
+            alert1.setHeaderText(null);
+            alert1.setContentText("Submission operation cancelled");
+            alert1.showAndWait();            
         }
     }
-
 }
+
