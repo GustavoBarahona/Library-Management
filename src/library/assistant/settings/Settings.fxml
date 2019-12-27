@@ -9,12 +9,12 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="239.0" prefWidth="340.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.assistant.settings.SettingsController">
+<AnchorPane id="AnchorPane" prefHeight="216.0" prefWidth="340.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.assistant.settings.SettingsController">
     <stylesheets>
         <URL value="@settings.css" />
     </stylesheets>
    <children>
-      <VBox prefHeight="204.0" prefWidth="340.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox prefHeight="184.0" prefWidth="340.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <JFXTextField fx:id="nDaysWithoutFine" labelFloat="true" promptText="Nro. of days member can take book without fine">
                <VBox.margin>
@@ -23,22 +23,22 @@
             </JFXTextField>
             <JFXTextField fx:id="finePerDay" labelFloat="true" promptText="Fine per day">
                <VBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="7.0" />
                </VBox.margin>
             </JFXTextField>
             <JFXTextField fx:id="username" labelFloat="true" promptText="Username">
                <VBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="7.0" />
                </VBox.margin>
             </JFXTextField>
             <JFXPasswordField fx:id="password" labelFloat="true" promptText="Password">
                <VBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="7.0" />
                </VBox.margin>
             </JFXPasswordField>
          </children>
       </VBox>
-      <HBox layoutY="204.0" prefHeight="44.0" prefWidth="340.0">
+      <HBox layoutY="180.0" prefHeight="43.0" prefWidth="340.0">
          <children>
             <Button mnemonicParsing="false" onAction="#handleSaveButtonAction" prefHeight="41.0" prefWidth="173.0" styleClass="jfx-button" text="Save" />
             <Button mnemonicParsing="false" onAction="#handleCancelButtonAction" prefHeight="41.0" prefWidth="167.0" styleClass="jfx-button" text="Cancel" />

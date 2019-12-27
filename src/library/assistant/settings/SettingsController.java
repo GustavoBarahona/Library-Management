@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -51,6 +52,7 @@ public class SettingsController implements Initializable {
 
     @FXML
     private void handleCancelButtonAction(ActionEvent event) {
+        ((Stage)nDaysWithoutFine.getScene().getWindow()).close();        
     }
 
     private void initDefaultValues() {

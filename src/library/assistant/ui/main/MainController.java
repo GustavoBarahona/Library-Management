@@ -93,6 +93,11 @@ public class MainController implements Initializable {
     private void loadBookTable(ActionEvent event) {
         loadWindow("/library/assistant/ui/listbook/Book_List.fxml", "library.assistant.ui.listbook");
     }
+    
+    @FXML
+    private void loadSettings(ActionEvent event) {
+        loadWindow("/library/assistant/settings/Settings.fxml", "library.assistant.settings");
+    }
 
     void loadWindow(String loc, String title) {
         try {
