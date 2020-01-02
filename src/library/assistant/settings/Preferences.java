@@ -58,7 +58,7 @@ public class Preferences {
     public void setPassword(String password) {
         //String pass = DigestUtils.shaHex(password);
         //this.password = password;
-        this.password = DigestUtils.shaHex(password);
+        this.password = DigestUtils.sha1Hex(password);
     }
 
     public static void initConfig() {
