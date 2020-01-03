@@ -24,6 +24,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -63,6 +64,8 @@ public class MainController implements Initializable {
     private ListView<String> issueDataList;
 
     Boolean isRedyForSub = false;
+    @FXML
+    private StackPane rootPane;
 
     /**
      * Initializes the controller class.
@@ -350,6 +353,37 @@ public class MainController implements Initializable {
             alert1.setContentText("Submission operation cancelled");
             alert1.showAndWait();            
         }
+    }
+
+    @FXML
+    private void handleMenuClose(ActionEvent event) {
+        ((Stage)rootPane.getScene().getWindow()).close();
+    }
+
+    @FXML
+    private void handleMenuAddBook(ActionEvent event) {
+        loadWindow("/library/assistant/ui/addbook/FXMLDocument.fxml", "library.assistant.ui.addbook");
+    }
+
+    @FXML
+    private void handleMenuAddMember(ActionEvent event) {
+        loadWindow("/library/assistant/ui/addmember/member_add.fxml", "library.assistant.ui.addmember");
+    }
+
+    @FXML
+    private void handleMenuViewBook(ActionEvent event) {        
+        loadWindow("/library/assistant/ui/listbook/Book_List.fxml", "library.assistant.ui.listbook");
+    }
+
+    @FXML
+    private void handleMenuViewMember(ActionEvent event) {
+        loadWindow("/library/assistant/ui/listmember/member_list.fxml", "library.assistant.ui.listmember");
+    }
+
+    @FXML
+    private void handleMenuFullScreen(ActionEvent event) {
+        Stage stage = ((Stage)rootPane.getScene().getWindow());
+        stage.setFullScreen(true);
     }
 }
 

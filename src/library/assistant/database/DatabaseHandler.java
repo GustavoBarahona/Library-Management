@@ -47,7 +47,9 @@ public class DatabaseHandler {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(url, usuario, password);
         } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Can't load database", "Database error", JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
+            //e.printStackTrace();
         }
     }
         
