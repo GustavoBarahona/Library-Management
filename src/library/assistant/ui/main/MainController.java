@@ -30,6 +30,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import library.assistant.database.DatabaseHandler;
 import library.assistant.ui.addbook.LibraryAssistant;
+import library.assistant.util.LibraryAssistantUtil;
 
 /**
  * FXML Controller class
@@ -117,6 +118,7 @@ public class MainController implements Initializable {
             //Esta linea de código quita los controles de cerrar minimizar y agrandar
             //stage.initStyle(StageStyle.UNDECORATED);
             stage.setTitle(title);
+            LibraryAssistantUtil.setStageIcon(stage);
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {

@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import library.assistant.util.LibraryAssistantUtil;
 
 /**
  *
@@ -39,6 +40,9 @@ public class Main extends Application {
             //stage.initStyle(StageStyle.UNDECORATED);
                         
             stage.setTitle("library assistant login");
+            
+            LibraryAssistantUtil.setStageIcon(stage);
+            
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
