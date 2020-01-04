@@ -21,6 +21,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -67,6 +69,10 @@ public class MainController implements Initializable {
     Boolean isRedyForSub = false;
     @FXML
     private StackPane rootPane;
+    @FXML
+    private Tab tabRenewSubmission;
+    @FXML
+    private TabPane tabPane;
 
     /**
      * Initializes the controller class.
@@ -76,6 +82,7 @@ public class MainController implements Initializable {
         JFXDepthManager.setDepth(book_info, 1);
         JFXDepthManager.setDepth(member_info, 1);
         handler = DatabaseHandler.getInstance();
+        //tabPane.getTabs().remove(1);
     }
 
     @FXML

@@ -4,17 +4,22 @@ import Modelo.Book;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import library.assistant.alert.AlertMaker;
 import library.assistant.database.DatabaseHandler;
 
 /**
@@ -78,6 +83,24 @@ public class BookListController implements Initializable {
         }
         
         tableView.getItems().setAll(List);
+    }
+
+    @FXML
+    private void handleBookDeleteOp(ActionEvent event) {
+        Book selectedForDeletion = tableView.getSelectionModel().getSelectedItem();
+        if(selectedForDeletion == null){
+            AlertMaker.showErrorMessage("No book selected", "Please select a book for deletion");
+            return;
+        }
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Deleting book");
+        alert.setContentText("Are you sure want to delete the book: " + selectedForDeletion.getTitle() + "?");
+        Optional<ButtonType> answer = alert.showAndWait();
+        if(answer.get() == ButtonType.OK){
+            
+        }else{
+            AlertMaker.showSimpleAlert("Deletion cancelled", "Deletion process canceled");
+        }
     }
 
     

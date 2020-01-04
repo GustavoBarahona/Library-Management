@@ -106,6 +106,12 @@ public class Book {
             return 0;
         }
         
-    }    
+    } 
+    
+    public boolean deleteBook(Book book){
+        String deleteStatement = "DELETE FROM book WHERE id = ?";
+        //PreparedStatement stmt = 
+        return false;
+    }
     
 }
