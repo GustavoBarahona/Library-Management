@@ -82,7 +82,8 @@ public class BookListController implements Initializable {
             e.printStackTrace();
         }
         
-        tableView.getItems().setAll(List);
+        //tableView.getItems().setAll(List);
+        tableView.setItems(List); //De esta manera funciona (remove) que está más abajo de estas lineas de codigo
     }
 
     @FXML
@@ -97,12 +98,16 @@ public class BookListController implements Initializable {
         alert.setContentText("Are you sure want to delete the book: " + selectedForDeletion.getTitle() + "?");
         Optional<ButtonType> answer = alert.showAndWait();
         if(answer.get() == ButtonType.OK){
-            
+            Boolean result = DatabaseHandler.getInstance().deleteBook(selectedForDeletion);
+            if(result){
+                AlertMaker.showSimpleAlert("Book deleted", selectedForDeletion.getTitle() + " was deleted successfully");
+                List.remove(selectedForDeletion);
+            }else{
+                AlertMaker.showSimpleAlert("Failed", selectedForDeletion.getTitle() + " was deleted successfully");
+            }
         }else{
-            AlertMaker.showSimpleAlert("Deletion cancelled", "Deletion process canceled");
+            AlertMaker.showSimpleAlert("Deletion cancelled", "Deletion process cancelled");
         }
-    }
-
-    
+    }    
 
 }
