@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class DatabaseHandler {
@@ -102,6 +103,27 @@ public class DatabaseHandler {
             }            
         } catch (SQLException ex) {
             java.util.logging.Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    
+    public boolean isBookAlreadyIssue(Book book){
+        
+        try {
+            String checkstmt = "SELECT COUNT(*) FROM issue WHERE bookID = ?";
+            PreparedStatement stmt = connection.prepareStatement(checkstmt);
+            stmt.setString(1, book.getId());
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()){
+                int count = rs.getInt(1);
+                if(count > 0){
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }

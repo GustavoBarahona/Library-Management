@@ -43,7 +43,7 @@ public class BookListController implements Initializable {
     private TableColumn<Book, String> publisherCol;
     @FXML
     private TableColumn<Book, Boolean> availabilityCol;
-    
+
     ObservableList<Book> List = FXCollections.observableArrayList();
 
     /**
@@ -69,19 +69,19 @@ public class BookListController implements Initializable {
         String query = "SELECT * FROM book";
         ResultSet rs = handler.excecQuery(query);
         try {
-            while(rs.next()){
+            while (rs.next()) {
                 String title = rs.getString("title");
                 String author = rs.getString("author");
                 String id = rs.getString("id");
                 String publisher = rs.getString("publisher");
                 Boolean avail = rs.getBoolean("isavail");
-                
+
                 List.add(new Book(id, title, author, publisher, avail)); //ObservableList
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
+
         //tableView.getItems().setAll(List);
         tableView.setItems(List); //De esta manera funciona (remove) que está más abajo de estas lineas de codigo
     }
@@ -89,25 +89,36 @@ public class BookListController implements Initializable {
     @FXML
     private void handleBookDeleteOp(ActionEvent event) {
         Book selectedForDeletion = tableView.getSelectionModel().getSelectedItem();
-        if(selectedForDeletion == null){
+        if (selectedForDeletion == null) {
             AlertMaker.showErrorMessage("No book selected", "Please select a book for deletion");
             return;
         }
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Deleting book");
-        alert.setContentText("Are you sure want to delete the book: " + selectedForDeletion.getTitle() + "?");
-        Optional<ButtonType> answer = alert.showAndWait();
-        if(answer.get() == ButtonType.OK){
-            Boolean result = DatabaseHandler.getInstance().deleteBook(selectedForDeletion);
-            if(result){
-                AlertMaker.showSimpleAlert("Book deleted", selectedForDeletion.getTitle() + " was deleted successfully");
-                List.remove(selectedForDeletion);
-            }else{
-                AlertMaker.showSimpleAlert("Failed", selectedForDeletion.getTitle() + " was deleted successfully");
+
+        Boolean bookallreadytodeletion = DatabaseHandler.getInstance().isBookAlreadyIssue(selectedForDeletion);
+
+        if (bookallreadytodeletion) {
+            //El libro si está publicado
+            AlertMaker.showErrorMessage("Failed", "Book allready issue");
+            return;
+        } else {
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Deleting book");
+            alert.setContentText("Are you sure want to delete the book: " + selectedForDeletion.getTitle() + "?");
+            Optional<ButtonType> answer = alert.showAndWait();
+            if (answer.get() == ButtonType.OK) {
+                Boolean result = DatabaseHandler.getInstance().deleteBook(selectedForDeletion);
+                if (result) {
+                    AlertMaker.showSimpleAlert("Book deleted", selectedForDeletion.getTitle() + " was deleted successfully");
+                    List.remove(selectedForDeletion);
+                } else {
+                    AlertMaker.showSimpleAlert("Failed", selectedForDeletion.getTitle() + " was deleted successfully");
+                }
+            } else {
+                AlertMaker.showSimpleAlert("Deletion cancelled", "Deletion process cancelled");
             }
-        }else{
-            AlertMaker.showSimpleAlert("Deletion cancelled", "Deletion process cancelled");
         }
-    }    
+
+    }
 
 }
