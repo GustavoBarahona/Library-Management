@@ -1,6 +1,7 @@
 package library.assistant.ui.listbook;
 
 import Modelo.Book;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,15 +13,22 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import library.assistant.alert.AlertMaker;
 import library.assistant.database.DatabaseHandler;
+import library.assistant.ui.addbook.BookAddController;
+import library.assistant.ui.addbook.LibraryAssistant;
+import library.assistant.util.LibraryAssistantUtil;
 
 /**
  * FXML Controller class
@@ -119,6 +127,41 @@ public class BookListController implements Initializable {
             }
         }
 
+    }
+
+    @FXML
+    private void handleBookEditOp(ActionEvent event) {
+        Book selectedForDeletion = tableView.getSelectionModel().getSelectedItem();
+        if (selectedForDeletion == null) {
+            AlertMaker.showErrorMessage("No book selected", "Please select a book for deletion");
+            return;
+        }
+        
+        try {
+            //Llamada a un formulario principal más completa:
+            FXMLLoader loader = new FXMLLoader(LibraryAssistant.class.getResource("/library/assistant/ui/addbook/FXMLDocument.fxml"));
+            AnchorPane pane = loader.load();
+            
+            //Con esto controlamos el controller:... Ojo super util
+            BookAddController controller = loader.getController();
+            controller.inflateUI(selectedForDeletion);
+            
+            Scene scene = new Scene(pane, 340, 221);//En esta línea ponemos dimencionar el formulario
+
+            //Agregamos una hoja de estilo
+            //scene.getStylesheets().addAll(getClass().getResource("/library.assistant.ui.addbook/addbook.css").toExternalForm());
+            Stage stage = new Stage(StageStyle.DECORATED);
+            stage.setResizable(true);//Esto nos permite redimencionar el formulario
+
+            //Esta linea de código quita los controles de cerrar minimizar y agrandar
+            //stage.initStyle(StageStyle.UNDECORATED);
+            stage.setTitle("Edit Book Option");
+            LibraryAssistantUtil.setStageIcon(stage);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

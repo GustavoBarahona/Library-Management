@@ -49,12 +49,12 @@ public class Book {
         this.author = new SimpleStringProperty(author);
     }
 
-    public StringProperty getPublisher() {
-        return publisher;
+    public String getPublisher() {
+        return publisher.get();
     }
 
-    public void setPublisher(StringProperty publisher) {
-        this.publisher = publisher;
+    public void setPublisher(String publisher) {
+        this.publisher = new SimpleStringProperty(publisher);
     }
 
     public Boolean getIsavail() {

@@ -15,13 +15,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+
 import library.assistant.database.DatabaseHandler;
+
 
 /**
  *
  * @author Gustavo
  */
-public class FXMLDocumentController implements Initializable {
+public class BookAddController implements Initializable {
 
     @FXML
     private JFXTextField title;
@@ -91,7 +93,15 @@ public class FXMLDocumentController implements Initializable {
                 System.out.println(title);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BookAddController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public void inflateUI(Book book){
+        title.setText(book.getTitle());
+        id.setText(book.getId());
+        author.setText(book.getAuthor());
+        publisher.setText(book.getPublisher());
+        id.setEditable(false);
     }
 }
