@@ -7,8 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -72,6 +71,8 @@ public class BookListController implements Initializable {
     }
 
     private void loadData() {
+        
+        List.clear();
         //DatabaseHandler handler = new DatabaseHandler();
         DatabaseHandler handler = DatabaseHandler.getInstance();
         String query = "SELECT * FROM book";
@@ -158,11 +159,21 @@ public class BookListController implements Initializable {
             //stage.initStyle(StageStyle.UNDECORATED);
             stage.setTitle("Edit Book Option");
             LibraryAssistantUtil.setStageIcon(stage);
+            
+            stage.setOnCloseRequest((e)->{
+                handleRefresh(new ActionEvent());
+            });
+            
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void handleRefresh(ActionEvent actionEvent) {
+        loadData();
     }
 
 }
