@@ -4,6 +4,7 @@ import Modelo.Book;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -15,9 +16,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import library.assistant.alert.AlertMaker;
 
 import library.assistant.database.DatabaseHandler;
-
 
 /**
  *
@@ -39,9 +40,11 @@ public class BookAddController implements Initializable {
     private JFXButton cancelButton;
 
     DatabaseHandler databasehandler;
-    
+
     @FXML
     private AnchorPane rootPane;
+
+    private boolean isInEditMode = Boolean.FALSE;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -63,18 +66,23 @@ public class BookAddController implements Initializable {
             msj.setContentText("Please Enter in all fields");
             msj.showAndWait();
             return;
-        } else {
-            Book libro = new Book(bookID, bookName, bookAuthor, bookPublisher, true);
-            databasehandler.establecerConexion();
-            int resultado = libro.guardarRegistro(databasehandler.getConnection());
-            databasehandler.cerrarConexion();
-            if (resultado == 1) {
-                Alert msj = new Alert(Alert.AlertType.INFORMATION);
-                msj.setTitle("Registro agregado");
-                msj.setContentText("El registro ha sido agregado exitósamente");
-                msj.setHeaderText("Resultado");
-                msj.show();
-            }
+        }
+        
+        if(isInEditMode){
+            handleEditOperation();
+            return;
+        }
+        
+        Book libro = new Book(bookID, bookName, bookAuthor, bookPublisher, true);
+        databasehandler.establecerConexion();
+        int resultado = libro.guardarRegistro(databasehandler.getConnection());
+        databasehandler.cerrarConexion();
+        if (resultado == 1) {
+            Alert msj = new Alert(Alert.AlertType.INFORMATION);
+            msj.setTitle("Registro agregado");
+            msj.setContentText("El registro ha sido agregado exitósamente");
+            msj.setHeaderText("Resultado");
+            msj.show();
         }
     }
 
@@ -96,12 +104,25 @@ public class BookAddController implements Initializable {
             Logger.getLogger(BookAddController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void inflateUI(Book book){
+
+    public void inflateUI(Book book) {
         title.setText(book.getTitle());
         id.setText(book.getId());
         author.setText(book.getAuthor());
         publisher.setText(book.getPublisher());
         id.setEditable(false);
+        isInEditMode = Boolean.TRUE;
     }
+
+    private void handleEditOperation() {
+        Book book = new Book(id.getText(), title.getText(), author.getText(), publisher.getText(), true);
+        if(databasehandler.updateBook(book)){
+            AlertMaker.showSimpleAlert("Success", "Book Updated");
+        }else{
+            AlertMaker.showSimpleAlert("Failed", "Can updated book");
+        }
+                
+    }
+    
+    
 }

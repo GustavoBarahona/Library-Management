@@ -143,7 +143,8 @@ public class BookListController implements Initializable {
             AnchorPane pane = loader.load();
             
             //Con esto controlamos el controller:... Ojo super util
-            BookAddController controller = loader.getController();
+            BookAddController controller = (BookAddController) loader.getController();
+            //BookAddController controller = loader.getController(); funciona igual pero dejé el de arriba por si acaso
             controller.inflateUI(selectedForDeletion);
             
             Scene scene = new Scene(pane, 340, 221);//En esta línea ponemos dimencionar el formulario

@@ -98,30 +98,47 @@ public class DatabaseHandler {
             stmt = connection.prepareStatement(deleteStatement);
             stmt.setString(1, book.getId());
             int res = stmt.executeUpdate();
-            if(res == 1){
+            if (res == 1) {
                 return true;
-            }            
+            }
         } catch (SQLException ex) {
             java.util.logging.Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
-    
-    public boolean isBookAlreadyIssue(Book book){
-        
+
+    public boolean isBookAlreadyIssue(Book book) {
+
         try {
             String checkstmt = "SELECT COUNT(*) FROM issue WHERE bookID = ?";
             PreparedStatement stmt = connection.prepareStatement(checkstmt);
             stmt.setString(1, book.getId());
             ResultSet rs = stmt.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 int count = rs.getInt(1);
-                if(count > 0){
+                if (count > 0) {
                     return true;
-                }else{
+                } else {
                     return false;
                 }
             }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public boolean updateBook(Book book) {
+
+        try {
+            String update = "UPDATE book set title=?, author = ?, publisher = ? WHERE id = ?";
+            PreparedStatement stmt = connection.prepareStatement(update);
+            stmt.setString(1, book.getTitle());
+            stmt.setString(2, book.getAuthor());
+            stmt.setString(3, book.getPublisher());
+            stmt.setString(4, book.getId());
+            int res = stmt.executeUpdate();
+            return (res > 0);            
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
