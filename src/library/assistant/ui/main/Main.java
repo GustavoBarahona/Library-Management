@@ -29,7 +29,7 @@ public class Main extends Application {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("/library/assistant/ui/login/login.fxml"));
             //StackPane sp = loader.load();
             AnchorPane sp = loader.load();
-            Scene scene = new Scene(sp, 343, 244);//En esta línea ponemos dimencionar el formulario
+            Scene scene = new Scene(sp, 343, 344);//En esta línea ponemos dimencionar el formulario
             
             //Agregamos una hoja de estilo
             //scene.getStylesheets().addAll(getClass().getResource("/library.assistant.ui.addbook/addbook.css").toExternalForm());
