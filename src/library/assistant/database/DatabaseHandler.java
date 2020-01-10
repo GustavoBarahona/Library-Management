@@ -1,6 +1,7 @@
 package library.assistant.database;
 
 import Modelo.Book;
+import Modelo.Member;
 //import com.sun.istack.internal.logging.Logger;
 //****************NO SÉ POR QUÉ EL SISTEMA NETBEANS ME DABA ERROR TUVE QUE COMENTAR LA LÍNEA ANTERIOR
 import java.sql.Connection;
@@ -139,6 +140,61 @@ public class DatabaseHandler {
             stmt.setString(4, book.getId());
             int res = stmt.executeUpdate();
             return (res > 0);            
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    
+    public boolean updateMember(Member member) {
+
+        try {
+            String update = "UPDATE member set name=?, mobile = ?, email = ? WHERE id = ?";
+            PreparedStatement stmt = connection.prepareStatement(update);
+            stmt.setString(1, member.getName());
+            stmt.setString(2, member.getMobile());
+            stmt.setString(3, member.getEmail());
+            stmt.setString(4, member.getId());
+            int res = stmt.executeUpdate();
+            return (res > 0);            
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    
+    public boolean deleteMember(Member member) {
+
+        try {
+            String deleteStatement = "DELETE FROM member WHERE id = ?";
+            PreparedStatement stmt;
+            stmt = connection.prepareStatement(deleteStatement);
+            stmt.setString(1, member.getId());
+            int res = stmt.executeUpdate();
+            if (res == 1) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    
+    public boolean isMemberAlreadyIssue(Member member) {
+
+        try {
+            String checkstmt = "SELECT COUNT(*) FROM issue WHERE memberID = ?";
+            PreparedStatement stmt = connection.prepareStatement(checkstmt);
+            stmt.setString(1, member.getId());
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                if (count > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -122,7 +122,5 @@ public class BookAddController implements Initializable {
             AlertMaker.showSimpleAlert("Failed", "Can updated book");
         }
                 
-    }
-    
-    
+    }    
 }

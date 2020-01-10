@@ -15,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import library.assistant.alert.AlertMaker;
 import library.assistant.database.DatabaseHandler;
 
 /**
@@ -36,10 +37,12 @@ public class MemberAddController implements Initializable {
     private JFXButton saveButton;
     @FXML
     private JFXButton cancelButton;
-    
+
     DatabaseHandler databasehandler;
     @FXML
     private AnchorPane rootPane;
+
+    private boolean isInEditMode = Boolean.FALSE;
 
     /**
      * Initializes the controller class.
@@ -71,23 +74,27 @@ public class MemberAddController implements Initializable {
             alert.setContentText("Please Enter in all fields");
             alert.showAndWait();
             return;
-        }else{
-            Member member = new Member(mID, mName, mMobile, mEmail);
-            databasehandler.establecerConexion();
-            int resultado = member.guardarRegistro(databasehandler.getConnection());
-            databasehandler.cerrarConexion();
-            if (resultado == 1) {
-                Alert msj = new Alert(Alert.AlertType.INFORMATION);
-                msj.setTitle("Registro agregado");
-                msj.setContentText("El registro ha sido agregado exitósamente");
-                msj.setHeaderText("Resultado");
-                msj.show();
-            }
-            
+        }
+        
+        if(isInEditMode){
+            handleEditOperation();
+            return;
+        }
+
+        Member member = new Member(mID, mName, mMobile, mEmail);
+        databasehandler.establecerConexion();
+        int resultado = member.guardarRegistro(databasehandler.getConnection());
+        databasehandler.cerrarConexion();
+        if (resultado == 1) {
+            Alert msj = new Alert(Alert.AlertType.INFORMATION);
+            msj.setTitle("Registro agregado");
+            msj.setContentText("El registro ha sido agregado exitósamente");
+            msj.setHeaderText("Resultado");
+            msj.show();
         }
 
     }
-    
+
     private void chekData() {
         String sql = "SELECT name FROM member";
         ResultSet rs = databasehandler.excecQuery(sql);
@@ -99,6 +106,25 @@ public class MemberAddController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(MemberAddController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public void inflateUI(Member member) {
+        name.setText(member.getName());
+        id.setText(member.getId());
+        mobile.setText(member.getMobile());
+        email.setText(member.getEmail());
+        id.setEditable(false);
+        isInEditMode = Boolean.TRUE;
+    }
+    
+    private void handleEditOperation() {
+        Member member = new Member(id.getText(), name.getText(), mobile.getText(), email.getText());
+        if(databasehandler.updateMember(member)){
+            AlertMaker.showSimpleAlert("Success", "Member Updated");
+        }else{
+            AlertMaker.showSimpleAlert("Failed", "Can updated member");
+        }
+                
     }
 
 }
