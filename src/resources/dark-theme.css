@@ -16,8 +16,7 @@
     -fx-background-color: -fx-primary;
 }
 
-.glyph-icon
-{
+.glyph-icon{
     -fx-fill: -fx-primarytext;
 }
 
