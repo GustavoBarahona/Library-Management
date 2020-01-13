@@ -57,6 +57,9 @@ public class LoginController implements Initializable {
         } else {
             titleLabel.setText("Invalid Credentails");
             titleLabel.setStyle("-fx-background-color:#d32f2f;-fx-text-fill:white");
+            
+            username.getStyleClass().add("wrong-credentials");
+            password.getStyleClass().add("wrong-credentials");
         }
     }
 
