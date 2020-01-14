@@ -13,7 +13,7 @@
 }
 
 .root{
-    -fx-background-color: -fx-primary;
+    -fx-background-color: -fx-primary;    
 }
 
 .glyph-icon{
@@ -23,10 +23,11 @@
 .button{
     -fx-text-fill: -fx-primarytext;
     -fx-background-color: -fx-primary;
-    -fx-border-color: -fx-secondary;
-    -fx-border-radius: 20px;
-    -fx-background-radius: 20px;
-    -fx-font-size: 12pt;
+    /*-fx-border-color: -fx-primary;*/
+    /*-fx-border-color: -fx-secondary;*/
+    /*-fx-border-radius: 20px;*/
+    /*-fx-background-radius: 20px;*/
+    /*-fx-font-size: 12pt;*/
 }
 
 .button:hover, .button:focused{
@@ -56,7 +57,7 @@
 
 /*TablPane styling*/
 .tab{
-    -fx-background-color: -fx-primary;
+    -fx-background-color: -fx-primary;    
 }
 
 .tab-header-background{
@@ -106,7 +107,7 @@
 
 /*Hamburger Styling*/
 .jfx-hamburger-icon{
-    -fx-spacing: 7;
+    -fx-spacing: 5;
 }
 
 .jfx-hamburger-icon StackPane
