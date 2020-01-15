@@ -3,33 +3,49 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox prefHeight="345.0" prefWidth="100.0" stylesheets="@../../../../../resources/dark-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="365.0" prefWidth="126.0" stylesheets="@../../../../../resources/dark-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.assistant.ui.main.toolbar.ToolbarController">
    <children>
-      <JFXButton contentDisplay="TOP" mnemonicParsing="false" onAction="#loadAddMember" prefHeight="75.0" prefWidth="100.0" text="Add Member">
+      <JFXButton accessibleText="toolBar_addMember" contentDisplay="TOP" mnemonicParsing="false" onAction="#loadAddMember" prefHeight="140.0" prefWidth="140.0" text="Add Member" textAlignment="CENTER">
          <graphic>
             <FontAwesomeIconView glyphName="USER" size="25" />
          </graphic>
+         <font>
+            <Font size="16.0" />
+         </font>
       </JFXButton>
-      <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#loadAddBook" prefHeight="75.0" prefWidth="100.0" text="Add Book">
+      <JFXButton accessibleText="toolBar_addBook" contentDisplay="TOP" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#loadAddBook" prefHeight="140.0" prefWidth="140.0" text="Add Book" textAlignment="CENTER">
          <graphic>
             <FontAwesomeIconView glyphName="BOOK" size="25" />
          </graphic>
+         <font>
+            <Font size="16.0" />
+         </font>
       </JFXButton>
-      <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#loadMemberTable" prefHeight="75.0" prefWidth="100.0" text="View Member">
+      <JFXButton accessibleText="toolBar_viewMember" contentDisplay="TOP" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#loadMemberTable" prefHeight="140.0" prefWidth="140.0" text="View Member" textAlignment="CENTER">
          <graphic>
             <FontAwesomeIconView glyphName="TABLE" size="25" />
          </graphic>
+         <font>
+            <Font size="16.0" />
+         </font>
       </JFXButton>
-      <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="73.0" mnemonicParsing="false" onAction="#loadBookTable" prefHeight="75.0" prefWidth="100.0" text="View Books">
+      <JFXButton accessibleText="toolBar_viewBook" contentDisplay="TOP" layoutX="10.0" layoutY="73.0" mnemonicParsing="false" onAction="#loadBookTable" prefHeight="140.0" prefWidth="140.0" text="View Books" textAlignment="CENTER">
          <graphic>
             <FontAwesomeIconView glyphName="TABLE" size="25" />
          </graphic>
+         <font>
+            <Font size="16.0" />
+         </font>
       </JFXButton>
-      <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="199.0" mnemonicParsing="false" onAction="#loadSettings" prefHeight="75.0" prefWidth="100.0" text="Settings">
+      <JFXButton accessibleText="toolBar_Settings" contentDisplay="TOP" layoutX="10.0" layoutY="199.0" mnemonicParsing="false" onAction="#loadSettings" prefHeight="140.0" prefWidth="140.0" text="Settings" textAlignment="CENTER">
          <graphic>
             <FontAwesomeIconView glyphName="COG" size="25" />
          </graphic>
+         <font>
+            <Font size="16.0" />
+         </font>
       </JFXButton>
    </children>
 </VBox>

@@ -1,7 +1,11 @@
 package library.assistant.ui.main;
 
+import com.jfoenix.controls.JFXDrawer;
+import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.effects.JFXDepthManager;
+import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
+import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
@@ -14,6 +18,7 @@ import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -24,9 +29,11 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -72,7 +79,9 @@ public class MainController implements Initializable {
     @FXML
     private Tab tabRenewSubmission;
     @FXML
-    private TabPane tabPane;
+    private JFXDrawer drawer;
+    @FXML
+    private JFXHamburger hamburger;
 
     /**
      * Initializes the controller class.
@@ -83,29 +92,26 @@ public class MainController implements Initializable {
         JFXDepthManager.setDepth(member_info, 1);
         handler = DatabaseHandler.getInstance();
         //tabPane.getTabs().remove(1);
+
+        initDrawer();
     }
 
-    @FXML
     private void loadAddMember(ActionEvent event) {
         loadWindow("/library/assistant/ui/addmember/member_add.fxml", "library.assistant.ui.addmember");
     }
 
-    @FXML
     private void loadAddBook(ActionEvent event) {
         loadWindow("/library/assistant/ui/addbook/FXMLDocument.fxml", "library.assistant.ui.addbook");
     }
 
-    @FXML
     private void loadMemberTable(ActionEvent event) {
         loadWindow("/library/assistant/ui/listmember/member_list.fxml", "library.assistant.ui.listmember");
     }
 
-    @FXML
     private void loadBookTable(ActionEvent event) {
         loadWindow("/library/assistant/ui/listbook/Book_List.fxml", "library.assistant.ui.listbook");
     }
-    
-    @FXML
+
     private void loadSettings(ActionEvent event) {
         loadWindow("/library/assistant/settings/Settings.fxml", "library.assistant.settings");
     }
@@ -320,7 +326,7 @@ public class MainController implements Initializable {
 
     @FXML
     private void loadRenewOp(ActionEvent event) {
-        
+
         if (!isRedyForSub) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Failed");
@@ -330,15 +336,15 @@ public class MainController implements Initializable {
             alert.showAndWait();
             return;
         }
-        
+
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm Renew Operation");
         alert.setHeaderText(null);
         alert.setContentText("Are you sure want to retew the book?");
-        
+
         Optional<ButtonType> response = alert.showAndWait();
         if (response.get() == ButtonType.OK) {
-            String ac = "UPDATE issue SET issueTime = CURRENT_TIMESTAMP, renew_count = renew_count + 1 WHERE bookID = '"+bookID.getText()+"'";
+            String ac = "UPDATE issue SET issueTime = CURRENT_TIMESTAMP, renew_count = renew_count + 1 WHERE bookID = '" + bookID.getText() + "'";
             System.out.println(ac);
             if (handler.excecAction(ac)) {
                 Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
@@ -355,18 +361,18 @@ public class MainController implements Initializable {
 
                 alert1.showAndWait();
             }
-        }else{
+        } else {
             Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
             alert1.setTitle("Cancelled");
             alert1.setHeaderText(null);
             alert1.setContentText("Submission operation cancelled");
-            alert1.showAndWait();            
+            alert1.showAndWait();
         }
     }
 
     @FXML
     private void handleMenuClose(ActionEvent event) {
-        ((Stage)rootPane.getScene().getWindow()).close();
+        ((Stage) rootPane.getScene().getWindow()).close();
     }
 
     @FXML
@@ -380,7 +386,7 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void handleMenuViewBook(ActionEvent event) {        
+    private void handleMenuViewBook(ActionEvent event) {
         loadWindow("/library/assistant/ui/listbook/Book_List.fxml", "library.assistant.ui.listbook");
     }
 
@@ -391,8 +397,35 @@ public class MainController implements Initializable {
 
     @FXML
     private void handleMenuFullScreen(ActionEvent event) {
-        Stage stage = ((Stage)rootPane.getScene().getWindow());
+        Stage stage = ((Stage) rootPane.getScene().getWindow());
         stage.setFullScreen(true);
     }
-}
 
+    private void initDrawer() {
+        try {
+            VBox toolbar = FXMLLoader.load(getClass().getResource("/library/assistant/ui/main/toolbar/toolbar.fxml"));
+            drawer.setSidePane(toolbar);
+        } catch (IOException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }       
+        
+        //HamburgerBackArrowBasicTransition task = new HamburgerBackArrowBasicTransition(hamburger);
+        HamburgerSlideCloseTransition task = new HamburgerSlideCloseTransition(hamburger);
+        task.setRate(-1);
+        hamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, (Event event) -> {
+            drawer.toggle();
+        });
+        
+        drawer.setOnDrawerOpening((event) -> {
+            task.setRate(task.getRate() * -1);
+            task.play();
+            drawer.toFront();
+        });
+        drawer.setOnDrawerClosed((event) -> {
+            drawer.toBack();
+            task.setRate(task.getRate() * -1);
+            task.play();
+        });
+
+    }
+}

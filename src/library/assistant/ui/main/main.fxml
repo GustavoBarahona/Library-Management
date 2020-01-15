@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDrawer?>
 <?import com.jfoenix.controls.JFXHamburger?>
 <?import com.jfoenix.controls.JFXTabPane?>
 <?import com.jfoenix.controls.JFXTextField?>
@@ -20,38 +21,10 @@
 
 <StackPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="356.0" prefWidth="600.0" stylesheets="@../../../../resources/dark-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.assistant.ui.main.MainController">
    <children>
-      <BorderPane prefHeight="200.0" prefWidth="200.0">
-         <top>
-            <MenuBar BorderPane.alignment="CENTER">
-              <menus>
-                <Menu mnemonicParsing="false" text="File">
-                  <items>
-                    <MenuItem mnemonicParsing="false" onAction="#handleMenuClose" text="Close" />
-                  </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Add">
-                  <items>
-                    <MenuItem mnemonicParsing="false" onAction="#handleMenuAddBook" text="Add Book" />
-                        <MenuItem mnemonicParsing="false" onAction="#handleMenuAddMember" text="Add Member" />
-                  </items>
-                </Menu>
-                  <Menu mnemonicParsing="false" text="View">
-                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#handleMenuViewBook" text="View Book" />
-                        <MenuItem mnemonicParsing="false" onAction="#handleMenuViewMember" text="View Member" />
-                        <MenuItem mnemonicParsing="false" onAction="#handleMenuFullScreen" text="Full Screen" />
-                     </items>
-                  </Menu>
-                <Menu mnemonicParsing="false" text="Help">
-                  <items>
-                    <MenuItem mnemonicParsing="false" text="About" />
-                  </items>
-                </Menu>
-              </menus>
-            </MenuBar>
-         </top>
-         <center>
-            <AnchorPane BorderPane.alignment="CENTER">
+      <JFXDrawer fx:id="drawer" defaultDrawerSize="120.0" prefHeight="356.0" prefWidth="105.0" resizableOnDrag="true" resizeContent="true" />
+      <AnchorPane>
+         <children>
+            <AnchorPane layoutY="35.0" prefHeight="321.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
                <children>
                   <JFXTabPane prefHeight="327.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <tabs>
@@ -134,7 +107,7 @@
                                           </JFXTextField>
                                        </top>
                                        <center>
-                                          <ListView fx:id="issueDataList" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                          <ListView fx:id="issueDataList" prefHeight="127.0" prefWidth="568.0" BorderPane.alignment="CENTER">
                                              <BorderPane.margin>
                                                 <Insets top="10.0" />
                                              </BorderPane.margin>
@@ -162,10 +135,37 @@
                         </Tab>
                      </tabs>
                   </JFXTabPane>
-                  <JFXHamburger layoutX="549.0" layoutY="275.0" prefHeight="51.0" prefWidth="51.0" styleClass="jfx-hamburger-icon" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="25.0" />
+                  <JFXHamburger fx:id="hamburger" layoutX="549.0" layoutY="275.0" prefHeight="51.0" prefWidth="51.0" styleClass="jfx-hamburger-icon" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="25.0" />
                </children>
             </AnchorPane>
-         </center>
-      </BorderPane>
+            <MenuBar prefHeight="8.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <menus>
+                <Menu mnemonicParsing="false" text="File">
+                  <items>
+                    <MenuItem mnemonicParsing="false" onAction="#handleMenuClose" text="Close" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Add">
+                  <items>
+                    <MenuItem mnemonicParsing="false" onAction="#handleMenuAddBook" text="Add Book" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleMenuAddMember" text="Add Member" />
+                  </items>
+                </Menu>
+                  <Menu mnemonicParsing="false" text="View">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#handleMenuViewBook" text="View Book" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleMenuViewMember" text="View Member" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleMenuFullScreen" text="Full Screen" />
+                     </items>
+                  </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="About" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+         </children>
+      </AnchorPane>
    </children>
 </StackPane>
