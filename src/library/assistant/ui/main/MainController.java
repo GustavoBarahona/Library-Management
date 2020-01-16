@@ -69,8 +69,8 @@ public class MainController implements Initializable {
     private Text contact;
     @FXML
     private JFXTextField bookID;
-    @FXML
-    private ListView<String> issueDataList;
+//    @FXML
+//    private ListView<String> issueDataList;
 
     Boolean isRedyForSub = false;
     @FXML
@@ -210,52 +210,54 @@ public class MainController implements Initializable {
         }
     }
 
-    @FXML
-    private void loadBookInfo2(ActionEvent event) {
-
-        ObservableList<String> issuData = FXCollections.observableArrayList();
-        isRedyForSub = false;
-
-        String id = bookID.getText();
-        String query = "SELECT * FROM issue WHERE bookID = '" + id + "'";
-        ResultSet rs = handler.excecQuery(query);
-        try {
-            while (rs.next()) {
-                String mBookID = id;
-                String mMemberID = rs.getString("memberID");
-                Timestamp mIssueTime = rs.getTimestamp("issueTime");
-                int mRenewCount = rs.getInt("renew_count");
-
-                issuData.add("  Issue Data and Time: " + mIssueTime.toGMTString());
-                issuData.add("  Renew Count: " + mRenewCount);
-                issuData.add("\nBook Informacion:- ");
-
-                query = "SELECT * FROM book WHERE id = '" + mBookID + "'";
-                ResultSet r1 = handler.excecQuery(query);
-                while (r1.next()) {
-                    issuData.add("  Book Name: " + r1.getString("title"));
-                    issuData.add("  Book ID: " + r1.getString("id"));
-                    issuData.add("  Book Author: " + r1.getString("author"));
-                    issuData.add("  Book Publisher: " + r1.getString("publisher"));
-                }
-
-                query = "SELECT * FROM member WHERE id = '" + mMemberID + "'";
-                r1 = handler.excecQuery(query);
-                issuData.add("\nMember Information:- ");
-                while (r1.next()) {
-                    issuData.add("  Name: " + r1.getString("name"));
-                    issuData.add("  Mobile: " + r1.getString("mobile"));
-                    issuData.add("  Email: " + r1.getString("email"));
-                }
-
-                isRedyForSub = true;
-            }
-        } catch (SQLException e) {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, e);
-        }
-
-        issueDataList.getItems().setAll(issuData);
-    }//Fin método loadBookInfo2
+    
+    //Este método sirve para llenar un LIST VIEW  OJO!!!!!
+//    @FXML
+//    private void loadBookInfo2(ActionEvent event) {
+//
+//        ObservableList<String> issuData = FXCollections.observableArrayList();
+//        isRedyForSub = false;
+//
+//        String id = bookID.getText();
+//        String query = "SELECT * FROM issue WHERE bookID = '" + id + "'";
+//        ResultSet rs = handler.excecQuery(query);
+//        try {
+//            while (rs.next()) {
+//                String mBookID = id;
+//                String mMemberID = rs.getString("memberID");
+//                Timestamp mIssueTime = rs.getTimestamp("issueTime");
+//                int mRenewCount = rs.getInt("renew_count");
+//
+//                issuData.add("  Issue Data and Time: " + mIssueTime.toGMTString());
+//                issuData.add("  Renew Count: " + mRenewCount);
+//                issuData.add("\nBook Informacion:- ");
+//
+//                query = "SELECT * FROM book WHERE id = '" + mBookID + "'";
+//                ResultSet r1 = handler.excecQuery(query);
+//                while (r1.next()) {
+//                    issuData.add("  Book Name: " + r1.getString("title"));
+//                    issuData.add("  Book ID: " + r1.getString("id"));
+//                    issuData.add("  Book Author: " + r1.getString("author"));
+//                    issuData.add("  Book Publisher: " + r1.getString("publisher"));
+//                }
+//
+//                query = "SELECT * FROM member WHERE id = '" + mMemberID + "'";
+//                r1 = handler.excecQuery(query);
+//                issuData.add("\nMember Information:- ");
+//                while (r1.next()) {
+//                    issuData.add("  Name: " + r1.getString("name"));
+//                    issuData.add("  Mobile: " + r1.getString("mobile"));
+//                    issuData.add("  Email: " + r1.getString("email"));
+//                }
+//
+//                isRedyForSub = true;
+//            }
+//        } catch (SQLException e) {
+//            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, e);
+//        }
+//
+//        issueDataList.getItems().setAll(issuData);
+//    }//Fin método loadBookInfo2
 
     @FXML
     private void loadSubmissionOp(ActionEvent event) {

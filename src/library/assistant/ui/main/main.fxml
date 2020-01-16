@@ -7,7 +7,6 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -114,16 +113,6 @@
                                              </BorderPane.margin>
                                           </JFXTextField>
                                        </top>
-                                       <center>
-                                          <ListView fx:id="issueDataList" prefHeight="127.0" prefWidth="568.0" BorderPane.alignment="CENTER">
-                                             <BorderPane.margin>
-                                                <Insets top="10.0" />
-                                             </BorderPane.margin>
-                                             <padding>
-                                                <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
-                                             </padding>
-                                          </ListView>
-                                       </center>
                                        <bottom>
                                           <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                                              <children>
@@ -136,6 +125,36 @@
                                              </children>
                                           </HBox>
                                        </bottom>
+                                       <center>
+                                          <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="15.0" BorderPane.alignment="CENTER">
+                                             <children>
+                                                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="300.0" spacing="15.0">
+                                                   <children>
+                                                      <FontAwesomeIconView glyphName="USER" size="25" />
+                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Text" />
+                                                      <Text layoutX="149.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Text" />
+                                                      <Text layoutX="149.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Text" />
+                                                   </children>
+                                                </VBox>
+                                                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="300.0" spacing="15.0">
+                                                   <children>
+                                                      <FontAwesomeIconView glyphName="BOOK" size="25" />
+                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Text" />
+                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Text" />
+                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Text" />
+                                                   </children>
+                                                </VBox>
+                                                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="300.0" spacing="15.0">
+                                                   <children>
+                                                      <FontAwesomeIconView glyphName="USER" size="25" />
+                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Text" />
+                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Text" />
+                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Text" />
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </HBox>
+                                       </center>
                                     </BorderPane>
                                  </children>
                               </AnchorPane>
