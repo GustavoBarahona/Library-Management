@@ -96,48 +96,30 @@ public class MainController implements Initializable {
         initDrawer();
     }
 
-    private void loadAddMember(ActionEvent event) {
-        loadWindow("/library/assistant/ui/addmember/member_add.fxml", "library.assistant.ui.addmember");
-    }
+    
 
-    private void loadAddBook(ActionEvent event) {
-        loadWindow("/library/assistant/ui/addbook/FXMLDocument.fxml", "library.assistant.ui.addbook");
-    }
-
-    private void loadMemberTable(ActionEvent event) {
-        loadWindow("/library/assistant/ui/listmember/member_list.fxml", "library.assistant.ui.listmember");
-    }
-
-    private void loadBookTable(ActionEvent event) {
-        loadWindow("/library/assistant/ui/listbook/Book_List.fxml", "library.assistant.ui.listbook");
-    }
-
-    private void loadSettings(ActionEvent event) {
-        loadWindow("/library/assistant/settings/Settings.fxml", "library.assistant.settings");
-    }
-
-    void loadWindow(String loc, String title) {
-        try {
-            //Llamada a un formulario principal más completa:
-            FXMLLoader loader = new FXMLLoader(LibraryAssistant.class.getResource(loc));
-            AnchorPane pane = loader.load();
-            Scene scene = new Scene(pane, 340, 221);//En esta línea ponemos dimencionar el formulario
-
-            //Agregamos una hoja de estilo
-            //scene.getStylesheets().addAll(getClass().getResource("/library.assistant.ui.addbook/addbook.css").toExternalForm());
-            Stage stage = new Stage(StageStyle.DECORATED);
-            stage.setResizable(true);//Esto nos permite redimencionar el formulario
-
-            //Esta linea de código quita los controles de cerrar minimizar y agrandar
-            //stage.initStyle(StageStyle.UNDECORATED);
-            stage.setTitle(title);
-            LibraryAssistantUtil.setStageIcon(stage);
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    void loadWindow(String loc, String title) {
+//        try {
+//            //Llamada a un formulario principal más completa:
+//            FXMLLoader loader = new FXMLLoader(LibraryAssistant.class.getResource(loc));
+//            AnchorPane pane = loader.load();
+//            Scene scene = new Scene(pane, 340, 221);//En esta línea ponemos dimencionar el formulario
+//
+//            //Agregamos una hoja de estilo
+//            //scene.getStylesheets().addAll(getClass().getResource("/library.assistant.ui.addbook/addbook.css").toExternalForm());
+//            Stage stage = new Stage(StageStyle.DECORATED);
+//            stage.setResizable(true);//Esto nos permite redimencionar el formulario
+//
+//            //Esta linea de código quita los controles de cerrar minimizar y agrandar
+//            //stage.initStyle(StageStyle.UNDECORATED);
+//            stage.setTitle(title);
+//            LibraryAssistantUtil.setStageIcon(stage);
+//            stage.setScene(scene);
+//            stage.show();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     @FXML
     private void loadBookInfo(ActionEvent event) {
@@ -377,22 +359,26 @@ public class MainController implements Initializable {
 
     @FXML
     private void handleMenuAddBook(ActionEvent event) {
-        loadWindow("/library/assistant/ui/addbook/FXMLDocument.fxml", "library.assistant.ui.addbook");
+        //loadWindow("/library/assistant/ui/addbook/FXMLDocument.fxml", "library.assistant.ui.addbook");
+        LibraryAssistantUtil.loadWindow(getClass().getResource("/library/assistant/ui/addbook/FXMLDocument.fxml"), "Add New Book", null);
     }
 
     @FXML
     private void handleMenuAddMember(ActionEvent event) {
-        loadWindow("/library/assistant/ui/addmember/member_add.fxml", "library.assistant.ui.addmember");
+        //loadWindow("/library/assistant/ui/addmember/member_add.fxml", "library.assistant.ui.addmember");
+        LibraryAssistantUtil.loadWindow(getClass().getResource("/library/assistant/ui/addmember/member_add.fxml"), "Add New Member", null);
     }
 
     @FXML
     private void handleMenuViewBook(ActionEvent event) {
-        loadWindow("/library/assistant/ui/listbook/Book_List.fxml", "library.assistant.ui.listbook");
+        //loadWindow("/library/assistant/ui/listbook/Book_List.fxml", "library.assistant.ui.listbook");
+        LibraryAssistantUtil.loadWindow(getClass().getResource("/library/assistant/ui/listbook/Book_List.fxml"), "Book List", null);
     }
 
     @FXML
     private void handleMenuViewMember(ActionEvent event) {
-        loadWindow("/library/assistant/ui/listmember/member_list.fxml", "library.assistant.ui.listmember");
+        //loadWindow("/library/assistant/ui/listmember/member_list.fxml", "library.assistant.ui.listmember");
+        LibraryAssistantUtil.loadWindow(getClass().getResource("/library/assistant/ui/listmember/member_list.fxml"), "Member List", null);
     }
 
     @FXML
