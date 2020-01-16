@@ -4,7 +4,6 @@ import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.effects.JFXDepthManager;
-import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import java.io.IOException;
 import java.net.URL;
