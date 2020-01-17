@@ -107,9 +107,9 @@
                                  <children>
                                     <BorderPane layoutX="93.0" layoutY="44.0" prefHeight="302.0" prefWidth="500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <top>
-                                          <JFXTextField fx:id="bookID" labelFloat="true" minWidth="-Infinity" onAction="#loadBookInfo2" prefHeight="25.0" prefWidth="10.0" promptText="Enter Book ID" BorderPane.alignment="CENTER">
+                                          <JFXTextField fx:id="bookID" labelFloat="true" minHeight="-Infinity" minWidth="-Infinity" onAction="#loadBookInfo3" prefHeight="25.0" prefWidth="10.0" promptText="Enter Book ID" BorderPane.alignment="CENTER">
                                              <BorderPane.margin>
-                                                <Insets left="120.0" right="120.0" top="20.0" />
+                                                <Insets bottom="15.0" left="240.0" right="240.0" top="20.0" />
                                              </BorderPane.margin>
                                           </JFXTextField>
                                        </top>
@@ -128,28 +128,28 @@
                                        <center>
                                           <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="15.0" BorderPane.alignment="CENTER">
                                              <children>
-                                                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="300.0" spacing="15.0">
+                                                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="300.0" spacing="15.0" styleClass="submission-container">
                                                    <children>
                                                       <FontAwesomeIconView glyphName="USER" size="25" />
-                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Text" />
-                                                      <Text layoutX="149.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Text" />
-                                                      <Text layoutX="149.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Text" />
+                                                      <Text fx:id="memberNameHolder" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Member Name Holder" />
+                                                      <Text fx:id="memberEmailHolder" layoutX="149.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Member Email Holder" />
+                                                      <Text fx:id="memberContact" layoutX="149.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Member Contact" />
                                                    </children>
                                                 </VBox>
-                                                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="300.0" spacing="15.0">
+                                                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="300.0" spacing="15.0" styleClass="submission-container">
                                                    <children>
                                                       <FontAwesomeIconView glyphName="BOOK" size="25" />
-                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Text" />
-                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Text" />
-                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Text" />
+                                                      <Text fx:id="bookNameHolder" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Book Name Holder" />
+                                                      <Text fx:id="bookAuthorHolder" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Book Author Holder" />
+                                                      <Text fx:id="bookPublisherHolder" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Book Publisher Holder" />
                                                    </children>
                                                 </VBox>
-                                                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="300.0" spacing="15.0">
+                                                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="300.0" spacing="15.0" styleClass="submission-container">
                                                    <children>
                                                       <FontAwesomeIconView glyphName="USER" size="25" />
-                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Text" />
-                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Text" />
-                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Text" />
+                                                      <Text fx:id="issueDateHolder" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Issue Date Holder" />
+                                                      <Text fx:id="noOfDaysHolder" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="No of Days Holder" />
+                                                      <Text fx:id="fineHolder" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Fine Holder" />
                                                    </children>
                                                 </VBox>
                                              </children>

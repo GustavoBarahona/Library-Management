@@ -10,8 +10,10 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -81,6 +83,24 @@ public class MainController implements Initializable {
     private JFXDrawer drawer;
     @FXML
     private JFXHamburger hamburger;
+    @FXML
+    private Text memberNameHolder;
+    @FXML
+    private Text memberEmailHolder;
+    @FXML
+    private Text memberContact;
+    @FXML
+    private Text bookNameHolder;
+    @FXML
+    private Text bookAuthorHolder;
+    @FXML
+    private Text bookPublisherHolder;
+    @FXML
+    private Text issueDateHolder;
+    @FXML
+    private Text noOfDaysHolder;
+    @FXML
+    private Text fineHolder;
 
     /**
      * Initializes the controller class.
@@ -94,8 +114,6 @@ public class MainController implements Initializable {
 
         initDrawer();
     }
-
-    
 
 //    void loadWindow(String loc, String title) {
 //        try {
@@ -119,7 +137,6 @@ public class MainController implements Initializable {
 //            e.printStackTrace();
 //        }
 //    }
-
     @FXML
     private void loadBookInfo(ActionEvent event) {
         String id = bookIDImput.getText();
@@ -210,7 +227,6 @@ public class MainController implements Initializable {
         }
     }
 
-    
     //Este método sirve para llenar un LIST VIEW  OJO!!!!!
 //    @FXML
 //    private void loadBookInfo2(ActionEvent event) {
@@ -258,6 +274,45 @@ public class MainController implements Initializable {
 //
 //        issueDataList.getItems().setAll(issuData);
 //    }//Fin método loadBookInfo2
+    @FXML
+    private void loadBookInfo3(ActionEvent event) {
+
+        ObservableList<String> issuData = FXCollections.observableArrayList();
+        isRedyForSub = false;
+        String id = bookID.getText();
+
+        try {
+            String myQuery = "SELECT issue.bookID, issue.memberID, issue.issueTime, issue.renew_count, "
+                    + "member.name, member.mobile, member.email,\n"
+                    + "book.title, book.author, book.publisher, book.isavail "
+                    + "from issue left join member on issue.memberID = member.id\n"
+                    + "left join book on issue.bookID = book.id where issue.bookID = '" + id + "'";
+            ResultSet rs = handler.excecQuery(myQuery);
+            if (rs.next()){
+                memberNameHolder.setText(rs.getString("name"));
+                memberContact.setText(rs.getString("mobile"));
+                memberEmailHolder.setText(rs.getString("email"));
+                
+                bookNameHolder.setText(rs.getString("title"));
+                bookAuthorHolder.setText(rs.getString("author"));
+                bookPublisherHolder.setText(rs.getString("publisher"));
+                
+                Timestamp ts = rs.getTimestamp("issueTime");
+                Date dateOfIssue = new Date(ts.getTime());
+                issueDateHolder.setText(dateOfIssue.toString());
+                Long timeElapsed = System.currentTimeMillis() - ts.getTime();
+                Long DaysElapsed = TimeUnit.DAYS.convert(timeElapsed, TimeUnit.MILLISECONDS);
+                noOfDaysHolder.setText(DaysElapsed.toString());
+                fineHolder.setText("No supported yet");
+                
+                isRedyForSub = true;
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        
+    }//Fin método loadBookInfo2
 
     @FXML
     private void loadSubmissionOp(ActionEvent event) {
@@ -394,15 +449,15 @@ public class MainController implements Initializable {
             drawer.setSidePane(toolbar);
         } catch (IOException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-        }       
-        
+        }
+
         //HamburgerBackArrowBasicTransition task = new HamburgerBackArrowBasicTransition(hamburger);
         HamburgerSlideCloseTransition task = new HamburgerSlideCloseTransition(hamburger);
         task.setRate(-1);
         hamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, (Event event) -> {
             drawer.toggle();
         });
-        
+
         drawer.setOnDrawerOpening((event) -> {
             task.setRate(task.getRate() * -1);
             task.play();
@@ -414,5 +469,9 @@ public class MainController implements Initializable {
             task.play();
         });
 
+    }
+
+    @FXML
+    private void loadBookInfo2(ActionEvent event) {
     }
 }
