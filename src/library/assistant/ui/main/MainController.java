@@ -235,34 +235,32 @@ public class MainController implements Initializable {
 //                alert.setContentText("Issue Operation Failed");
 //                alert.showAndWait();
             }
+            clearIssueEntries();
         });
-        
+
         JFXButton noButton = new JFXButton("No");
         noButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event1) -> {
             JFXButton button = new JFXButton("That's Okay");
             AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(button), "Issue Cancelled", null);
-
+            clearIssueEntries();
 //            Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
 //            alert.setTitle("Cancelled");
 //            alert.setHeaderText(null);
 //            alert.setContentText("Issue Operation Cancelled");
 //            alert.showAndWait();
         });
-        
-        AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(yesButton, noButton), "Confirm Issue", "Are you sure want to issue the book" + bookName.getText() + " to " + memberName.getText() + " ?");
 
 //        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 //        alert.setTitle("Confirm Issue Operation");
 //        alert.setHeaderText(null);
 //        alert.setContentText("Are you sure want to issue the book" + bookName.getText() + "\n to " + memberName.getText() + " ?");
-
 //        Optional<ButtonType> response = alert.showAndWait();
 //        if (response.get() == ButtonType.OK) {
 //
 //        } else {
-//
-//           
 //        }
+        AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(yesButton, noButton), "Confirm Issue", "Are you sure want to issue the book" + bookName.getText() + " to " + memberName.getText() + " ?");
+        clearIssueEntries();
     }
 
     //Este método sirve para llenar un LIST VIEW  OJO!!!!!
@@ -380,49 +378,47 @@ public class MainController implements Initializable {
     @FXML
     private void loadSubmissionOp(ActionEvent event) {
         if (!isRedyForSub) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Failed");
-            alert.setHeaderText(null);
-            alert.setContentText("Please select a book to submit");
 
-            alert.showAndWait();
+            JFXButton btn = new JFXButton("Ok I'll check");
+            AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(btn), "Please select a book to submit", "Can't simply submit a null book");
             return;
         }
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirm Submission Operation");
-        alert.setHeaderText(null);
-        alert.setContentText("Are you sure want to return the book?");
-
-        Optional<ButtonType> response = alert.showAndWait();
-        if (response.get() == ButtonType.OK) {
-
+        JFXButton yesButton = new JFXButton("Yes, Please");
+        yesButton.addEventFilter(MouseEvent.MOUSE_CLICKED, (MouseEvent event1) -> {
             String id = bookID.getText();
             String ac1 = "DELETE FROM issue WHERE bookid = '" + id + "'";
             String ac2 = "UPDATE book SET isavail = true WHERE id = '" + id + "'";
 
             if (handler.excecAction(ac1) && handler.excecAction(ac2)) {
-                Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
-                alert1.setTitle("Succes");
-                alert1.setHeaderText(null);
-                alert1.setContentText("Book has been submitted");
-                alert1.showAndWait();
-                loadBookInfo3(null);
-            } else {
-                Alert alert1 = new Alert(Alert.AlertType.ERROR);
-                alert1.setTitle("Failed");
-                alert1.setHeaderText(null);
-                alert1.setContentText("Submitted has been failed");
+                JFXButton btn = new JFXButton("Done");
+                AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(btn), "Book has been submitted", null);
+                disableEnableControls(false);
+                submissionDataContainer.setOpacity(0);
+                //loadBookInfo3(null);
 
-                alert1.showAndWait();
+            } else {
+                JFXButton btn = new JFXButton("Ok I'll check");
+                AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(btn), "Submitted has been failed", null);
+
             }
-        } else {
-            Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
-            alert1.setTitle("Cancelled");
-            alert1.setHeaderText(null);
-            alert1.setContentText("Submission operation cancelled");
-            alert1.showAndWait();
-        }
+        });
+        JFXButton noButton = new JFXButton("No");
+        noButton.addEventFilter(MouseEvent.MOUSE_CLICKED, (MouseEvent event1) -> {
+            JFXButton btn = new JFXButton("Okay");
+            AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(btn), "Submittion operation cancelled", null);
+        });
+
+
+//        Optional<ButtonType> response = alert.showAndWait();
+//        if (response.get() == ButtonType.OK) {
+//
+//        } else {
+//
+//        }
+
+        AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(yesButton, noButton), "Confirm Submission Operation", "Are you sure you want to return the book?");
+
     }
 
     @FXML
@@ -559,6 +555,16 @@ public class MainController implements Initializable {
             renewButton.setDisable(true);
             submissionBuutton.setDisable(true);
         }
+    }
+
+    private void clearIssueEntries() {
+        bookIDImput.clear();
+        memberIDImput.clear();
+        bookName.setText("");
+        bookAuthor.setText("");
+        bookStatus.setText("");
+        contact.setText("");
+        memberName.setText("");
     }
 
 }
