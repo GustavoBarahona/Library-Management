@@ -14,6 +14,7 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -44,6 +45,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import library.assistant.alert.AlertMaker;
 import library.assistant.database.DatabaseHandler;
 import library.assistant.ui.addbook.LibraryAssistant;
 import library.assistant.util.LibraryAssistantUtil;
@@ -209,36 +211,58 @@ public class MainController implements Initializable {
         String memberID = memberIDImput.getText();
         String bookID = bookIDImput.getText();
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirm Issue Operation");
-        alert.setHeaderText(null);
-        alert.setContentText("Are you sure want to issue the book" + bookName.getText() + "\n to " + memberName.getText() + " ?");
-
-        Optional<ButtonType> response = alert.showAndWait();
-        if (response.get() == ButtonType.OK) {
+        JFXButton yesButton = new JFXButton("Yes");
+        yesButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event1) -> {
             String str1 = "INSERT INTO issue(memberID, bookID) VALUES('" + memberID + "', '" + bookID + "')";
             String str2 = "UPDATE book SET isavail = false WHERE id = '" + bookID + "'";
             System.out.println(str1 + " and " + str2);
             if (handler.excecAction(str1) && handler.excecAction(str2)) {
-                Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Success");
-                alert.setHeaderText(null);
-                alert.setContentText("Book Issue Complete");
-                alert.showAndWait();
+                JFXButton button = new JFXButton("Done");
+                AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(button), "Book Issue Complete", null);
+
+//                Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
+//                alert.setTitle("Success");
+//                alert.setHeaderText(null);
+//                alert.setContentText("Book Issue Complete");
+//                alert.showAndWait();
             } else {
-                Alert alert1 = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Failed");
-                alert.setHeaderText(null);
-                alert.setContentText("Issue Operation Failed");
-                alert.showAndWait();
+                JFXButton button = new JFXButton("Ok I'll check");
+                AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(button), "Issue Operation Failed", null);
+
+//                Alert alert1 = new Alert(Alert.AlertType.ERROR);
+//                alert.setTitle("Failed");
+//                alert.setHeaderText(null);
+//                alert.setContentText("Issue Operation Failed");
+//                alert.showAndWait();
             }
-        } else {
-            Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Cancelled");
-            alert.setHeaderText(null);
-            alert.setContentText("Issue Operation Cancelled");
-            alert.showAndWait();
-        }
+        });
+        
+        JFXButton noButton = new JFXButton("No");
+        noButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event1) -> {
+            JFXButton button = new JFXButton("That's Okay");
+            AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(button), "Issue Cancelled", null);
+
+//            Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
+//            alert.setTitle("Cancelled");
+//            alert.setHeaderText(null);
+//            alert.setContentText("Issue Operation Cancelled");
+//            alert.showAndWait();
+        });
+        
+        AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(yesButton, noButton), "Confirm Issue", "Are you sure want to issue the book" + bookName.getText() + " to " + memberName.getText() + " ?");
+
+//        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+//        alert.setTitle("Confirm Issue Operation");
+//        alert.setHeaderText(null);
+//        alert.setContentText("Are you sure want to issue the book" + bookName.getText() + "\n to " + memberName.getText() + " ?");
+
+//        Optional<ButtonType> response = alert.showAndWait();
+//        if (response.get() == ButtonType.OK) {
+//
+//        } else {
+//
+//           
+//        }
     }
 
     //Este método sirve para llenar un LIST VIEW  OJO!!!!!
@@ -324,24 +348,27 @@ public class MainController implements Initializable {
                 disableEnableControls(true);
                 submissionDataContainer.setOpacity(1);
             } else {
-                BoxBlur blur = new BoxBlur(3, 3, 3);
+//                BoxBlur blur = new BoxBlur(3, 3, 3);
+//
+//                JFXDialogLayout dialoglayout = new JFXDialogLayout();
+//                JFXButton button = new JFXButton("okay. I'll chek");
+//                button.getStyleClass().add("dialog-button"); //de esta forma damos nombre de clase para css
+//                JFXDialog dialog = new JFXDialog(rootPane, dialoglayout, JFXDialog.DialogTransition.TOP);
+//                button.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent mouseevent) -> {
+//                    dialog.close();
+//                    //rootAnchorPane.setEffect(null);
+//                });
+//
+//                dialoglayout.setHeading(new Label("No such book exists in Issue Records"));
+//                dialoglayout.setActions(button);
+//                dialog.show();
+//                dialog.setOnDialogClosed((JFXDialogEvent event1) -> {
+//                    rootAnchorPane.setEffect(null);
+//                });
+//                rootAnchorPane.setEffect(blur);
 
-                JFXDialogLayout dialoglayout = new JFXDialogLayout();
                 JFXButton button = new JFXButton("okay. I'll chek");
-                button.getStyleClass().add("dialog-button"); //de esta forma damos nombre de clase para css
-                JFXDialog dialog = new JFXDialog(rootPane, dialoglayout, JFXDialog.DialogTransition.TOP);
-                button.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent mouseevent) -> {
-                    dialog.close();
-                    //rootAnchorPane.setEffect(null);
-                });
-
-                dialoglayout.setHeading(new Label("No such book exists in Issue Records"));
-                dialoglayout.setActions(button);
-                dialog.show();
-                dialog.setOnDialogClosed((JFXDialogEvent event1) -> {
-                    rootAnchorPane.setEffect(null);
-                });
-                rootAnchorPane.setEffect(blur);
+                AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(button), "No such book exists in issue Database", null);
 
             }
         } catch (Exception e) {
@@ -519,7 +546,7 @@ public class MainController implements Initializable {
         issueDateHolder.setText("");
         noOfDaysHolder.setText("");
         fineHolder.setText("");
-        
+
         disableEnableControls(false);
         submissionDataContainer.setOpacity(0);
     }
