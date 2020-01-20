@@ -1,8 +1,12 @@
 package library.assistant.ui.main;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.events.JFXDialogEvent;
 import com.jfoenix.effects.JFXDepthManager;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import java.io.IOException;
@@ -26,10 +30,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -101,6 +107,14 @@ public class MainController implements Initializable {
     private Text noOfDaysHolder;
     @FXML
     private Text fineHolder;
+    @FXML
+    private AnchorPane rootAnchorPane;
+    @FXML
+    private JFXButton renewButton;
+    @FXML
+    private JFXButton submissionBuutton;
+    @FXML
+    private HBox submissionDataContainer;
 
     /**
      * Initializes the controller class.
@@ -277,6 +291,7 @@ public class MainController implements Initializable {
     @FXML
     private void loadBookInfo3(ActionEvent event) {
 
+        clearEntries();
         ObservableList<String> issuData = FXCollections.observableArrayList();
         isRedyForSub = false;
         String id = bookID.getText();
@@ -288,15 +303,15 @@ public class MainController implements Initializable {
                     + "from issue left join member on issue.memberID = member.id\n"
                     + "left join book on issue.bookID = book.id where issue.bookID = '" + id + "'";
             ResultSet rs = handler.excecQuery(myQuery);
-            if (rs.next()){
+            if (rs.next()) {
                 memberNameHolder.setText(rs.getString("name"));
                 memberContact.setText(rs.getString("mobile"));
                 memberEmailHolder.setText(rs.getString("email"));
-                
+
                 bookNameHolder.setText(rs.getString("title"));
                 bookAuthorHolder.setText(rs.getString("author"));
                 bookPublisherHolder.setText(rs.getString("publisher"));
-                
+
                 Timestamp ts = rs.getTimestamp("issueTime");
                 Date dateOfIssue = new Date(ts.getTime());
                 issueDateHolder.setText(dateOfIssue.toString());
@@ -304,14 +319,35 @@ public class MainController implements Initializable {
                 Long DaysElapsed = TimeUnit.DAYS.convert(timeElapsed, TimeUnit.MILLISECONDS);
                 noOfDaysHolder.setText(DaysElapsed.toString());
                 fineHolder.setText("No supported yet");
-                
+
                 isRedyForSub = true;
+                disableEnableControls(true);
+                submissionDataContainer.setOpacity(1);
+            } else {
+                BoxBlur blur = new BoxBlur(3, 3, 3);
+
+                JFXDialogLayout dialoglayout = new JFXDialogLayout();
+                JFXButton button = new JFXButton("okay. I'll chek");
+                button.getStyleClass().add("dialog-button"); //de esta forma damos nombre de clase para css
+                JFXDialog dialog = new JFXDialog(rootPane, dialoglayout, JFXDialog.DialogTransition.TOP);
+                button.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent mouseevent) -> {
+                    dialog.close();
+                    //rootAnchorPane.setEffect(null);
+                });
+
+                dialoglayout.setHeading(new Label("No such book exists in Issue Records"));
+                dialoglayout.setActions(button);
+                dialog.show();
+                dialog.setOnDialogClosed((JFXDialogEvent event1) -> {
+                    rootAnchorPane.setEffect(null);
+                });
+                rootAnchorPane.setEffect(blur);
+
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        
     }//Fin método loadBookInfo2
 
     @FXML
@@ -343,8 +379,8 @@ public class MainController implements Initializable {
                 alert1.setTitle("Succes");
                 alert1.setHeaderText(null);
                 alert1.setContentText("Book has been submitted");
-
                 alert1.showAndWait();
+                loadBookInfo3(null);
             } else {
                 Alert alert1 = new Alert(Alert.AlertType.ERROR);
                 alert1.setTitle("Failed");
@@ -389,8 +425,8 @@ public class MainController implements Initializable {
                 alert1.setTitle("Succes");
                 alert1.setHeaderText(null);
                 alert1.setContentText("Book has been renewed");
-
                 alert1.showAndWait();
+                loadBookInfo3(null);
             } else {
                 Alert alert1 = new Alert(Alert.AlertType.ERROR);
                 alert1.setTitle("Failed");
@@ -471,7 +507,31 @@ public class MainController implements Initializable {
 
     }
 
-    @FXML
-    private void loadBookInfo2(ActionEvent event) {
+    private void clearEntries() {
+        memberNameHolder.setText("");
+        memberEmailHolder.setText("");
+        memberContact.setText("");
+
+        bookNameHolder.setText("");
+        bookAuthorHolder.setText("");
+        bookPublisherHolder.setText("");
+
+        issueDateHolder.setText("");
+        noOfDaysHolder.setText("");
+        fineHolder.setText("");
+        
+        disableEnableControls(false);
+        submissionDataContainer.setOpacity(0);
     }
+
+    private void disableEnableControls(Boolean enableFlag) {
+        if (enableFlag) {
+            renewButton.setDisable(false);
+            submissionBuutton.setDisable(false);
+        } else {
+            renewButton.setDisable(true);
+            submissionBuutton.setDisable(true);
+        }
+    }
+
 }

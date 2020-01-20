@@ -103,7 +103,7 @@
                         </Tab>
                         <Tab fx:id="tabRenewSubmission" text="Renew / Submission">
                            <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                              <AnchorPane fx:id="rootAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
                                     <BorderPane layoutX="93.0" layoutY="44.0" prefHeight="302.0" prefWidth="500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <top>
@@ -116,17 +116,17 @@
                                        <bottom>
                                           <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                                              <children>
-                                                <JFXButton onAction="#loadRenewOp" prefWidth="150.0" text="Renew">
+                                                <JFXButton fx:id="renewButton" disable="true" onAction="#loadRenewOp" prefWidth="150.0" text="Renew">
                                                    <HBox.margin>
                                                       <Insets right="10.0" />
                                                    </HBox.margin>
                                                 </JFXButton>
-                                                <JFXButton onAction="#loadSubmissionOp" prefWidth="150.0" text="Submission" />
+                                                <JFXButton fx:id="submissionBuutton" disable="true" onAction="#loadSubmissionOp" prefWidth="150.0" text="Submission" />
                                              </children>
                                           </HBox>
                                        </bottom>
                                        <center>
-                                          <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="15.0" BorderPane.alignment="CENTER">
+                                          <HBox fx:id="submissionDataContainer" alignment="CENTER" opacity="0.0" prefHeight="100.0" prefWidth="200.0" spacing="15.0" BorderPane.alignment="CENTER">
                                              <children>
                                                 <VBox alignment="CENTER" prefHeight="200.0" prefWidth="300.0" spacing="15.0" styleClass="submission-container">
                                                    <children>
