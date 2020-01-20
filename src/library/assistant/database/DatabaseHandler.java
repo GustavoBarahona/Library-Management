@@ -12,6 +12,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.chart.PieChart;
 import javax.swing.JOptionPane;
 
 public class DatabaseHandler {
@@ -199,5 +202,20 @@ public class DatabaseHandler {
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
+    }
+    
+    public static void main(String[] args) throws Exception{
+        
+    }
+    
+    public ObservableList<PieChart.Data> getBookGraphicStatistics(){
+        try {
+            ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
+            String qry1 = "SELECT COUNT(*) FROM book";
+            String qry2 = "SELECT COUNT(*) FROM issue";
+            //ResultSet rs 
+        } catch (Exception e) {
+        }
+        return null;
     }
 }
