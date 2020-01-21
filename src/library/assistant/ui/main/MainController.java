@@ -74,7 +74,7 @@ public class MainController implements Initializable {
     DatabaseHandler handler;
     PieChart bookChart;
     PieChart memberChart;
-    
+
     @FXML
     private TextField memberIDImput;
     @FXML
@@ -125,6 +125,8 @@ public class MainController implements Initializable {
     private StackPane bookInfoContainer;
     @FXML
     private StackPane memberInfoContainer;
+    @FXML
+    private Tab bookIssueTab;
 
     /**
      * Initializes the controller class.
@@ -165,8 +167,8 @@ public class MainController implements Initializable {
     @FXML
     private void loadBookInfo(ActionEvent event) {
         enableDisableGraphs(false);
-        
-        String id = bookIDImput.getText();        
+
+        String id = bookIDImput.getText();
         String query = "SELECT * FROM book WHERE id = '" + id + "'";
         ResultSet rs = handler.excecQuery(query);
         Boolean flag = false;
@@ -193,6 +195,7 @@ public class MainController implements Initializable {
 
     @FXML
     private void loadMemberInfo(ActionEvent event) {
+        enableDisableGraphs(false);
         String id = memberIDImput.getText();
         String query = "SELECT * FROM member WHERE id = '" + id + "'";
         ResultSet rs = handler.excecQuery(query);
@@ -230,7 +233,7 @@ public class MainController implements Initializable {
             if (handler.excecAction(str1) && handler.excecAction(str2)) {
                 JFXButton button = new JFXButton("Done");
                 AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(button), "Book Issue Complete", null);
-
+                refreshGraphs();
 //                Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
 //                alert.setTitle("Success");
 //                alert.setHeaderText(null);
@@ -420,14 +423,12 @@ public class MainController implements Initializable {
             AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(btn), "Submittion operation cancelled", null);
         });
 
-
 //        Optional<ButtonType> response = alert.showAndWait();
 //        if (response.get() == ButtonType.OK) {
 //
 //        } else {
 //
 //        }
-
         AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(yesButton, noButton), "Confirm Submission Operation", "Are you sure you want to return the book?");
 
     }
@@ -576,6 +577,8 @@ public class MainController implements Initializable {
         bookStatus.setText("");
         contact.setText("");
         memberName.setText("");
+        enableDisableGraphs(true);
+        refreshGraphs();
     }
 
     private void initGraphs() {
@@ -583,16 +586,28 @@ public class MainController implements Initializable {
         memberChart = new PieChart(handler.getMemberGraphicStatistics());
         bookInfoContainer.getChildren().add(bookChart);
         memberInfoContainer.getChildren().add(memberChart);
+        
+        bookIssueTab.setOnSelectionChanged((Event evento) -> {
+            clearIssueEntries();
+            if (bookIssueTab.isSelected()) {
+                refreshGraphs();
+            }
+        });
     }
-    
-    private void enableDisableGraphs(Boolean status){
-        if(status){
+
+    private void enableDisableGraphs(Boolean status) {
+        if (status) {
             bookChart.setOpacity(1);
             memberChart.setOpacity(1);
-        }else{
+        } else {
             bookChart.setOpacity(0);
             memberChart.setOpacity(0);
         }
+    }
+
+    private void refreshGraphs() {
+        bookChart.setData(handler.getBookGraphicStatistics());
+        memberChart.setData(handler.getMemberGraphicStatistics());
     }
 
 }
