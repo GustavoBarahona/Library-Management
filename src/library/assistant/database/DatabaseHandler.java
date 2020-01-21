@@ -142,13 +142,13 @@ public class DatabaseHandler {
             stmt.setString(3, book.getPublisher());
             stmt.setString(4, book.getId());
             int res = stmt.executeUpdate();
-            return (res > 0);            
+            return (res > 0);
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
-    
+
     public boolean updateMember(Member member) {
 
         try {
@@ -159,13 +159,13 @@ public class DatabaseHandler {
             stmt.setString(3, member.getEmail());
             stmt.setString(4, member.getId());
             int res = stmt.executeUpdate();
-            return (res > 0);            
+            return (res > 0);
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
-    
+
     public boolean deleteMember(Member member) {
 
         try {
@@ -182,7 +182,7 @@ public class DatabaseHandler {
         }
         return false;
     }
-    
+
     public boolean isMemberAlreadyIssue(Member member) {
 
         try {
@@ -203,19 +203,54 @@ public class DatabaseHandler {
         }
         return false;
     }
-    
-    public static void main(String[] args) throws Exception{
-        
+
+    public static void main(String[] args) throws Exception {
+
     }
-    
-    public ObservableList<PieChart.Data> getBookGraphicStatistics(){
+
+    public ObservableList<PieChart.Data> getBookGraphicStatistics() {
+        ObservableList<PieChart.Data> gusdata = FXCollections.observableArrayList();
         try {
-            ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
             String qry1 = "SELECT COUNT(*) FROM book";
             String qry2 = "SELECT COUNT(*) FROM issue";
-            //ResultSet rs 
-        } catch (Exception e) {
+            ResultSet rs = excecQuery(qry1);
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                gusdata.add(new PieChart.Data("Total Books ("+count+")", count));
+            }
+            rs = excecQuery(qry2);
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                gusdata.add(new PieChart.Data("Total Issue ("+count+")", count));
+            }
+            
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return null;
+        return gusdata;
+    }
+    
+    public ObservableList<PieChart.Data> getMemberGraphicStatistics() {
+        ObservableList<PieChart.Data> gusdata = FXCollections.observableArrayList();
+        try {
+            String qry1 = "SELECT COUNT(*) FROM member";
+            String qry2 = "SELECT COUNT(DISTINCT memberID) FROM issue";
+            ResultSet rs = excecQuery(qry1);
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                gusdata.add(new PieChart.Data("Total Members ("+count+")", count));
+            }
+            rs = excecQuery(qry2);
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                gusdata.add(new PieChart.Data("Members whit books ("+count+")", count));
+            }
+            
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return gusdata;
     }
 }

@@ -29,6 +29,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -71,6 +72,9 @@ public class MainController implements Initializable {
     private Text bookStatus;
 
     DatabaseHandler handler;
+    PieChart bookChart;
+    PieChart memberChart;
+    
     @FXML
     private TextField memberIDImput;
     @FXML
@@ -117,6 +121,10 @@ public class MainController implements Initializable {
     private JFXButton submissionBuutton;
     @FXML
     private HBox submissionDataContainer;
+    @FXML
+    private StackPane bookInfoContainer;
+    @FXML
+    private StackPane memberInfoContainer;
 
     /**
      * Initializes the controller class.
@@ -129,6 +137,7 @@ public class MainController implements Initializable {
         //tabPane.getTabs().remove(1);
 
         initDrawer();
+        initGraphs();
     }
 
 //    void loadWindow(String loc, String title) {
@@ -155,7 +164,9 @@ public class MainController implements Initializable {
 //    }
     @FXML
     private void loadBookInfo(ActionEvent event) {
-        String id = bookIDImput.getText();
+        enableDisableGraphs(false);
+        
+        String id = bookIDImput.getText();        
         String query = "SELECT * FROM book WHERE id = '" + id + "'";
         ResultSet rs = handler.excecQuery(query);
         Boolean flag = false;
@@ -565,6 +576,23 @@ public class MainController implements Initializable {
         bookStatus.setText("");
         contact.setText("");
         memberName.setText("");
+    }
+
+    private void initGraphs() {
+        bookChart = new PieChart(handler.getBookGraphicStatistics());
+        memberChart = new PieChart(handler.getMemberGraphicStatistics());
+        bookInfoContainer.getChildren().add(bookChart);
+        memberInfoContainer.getChildren().add(memberChart);
+    }
+    
+    private void enableDisableGraphs(Boolean status){
+        if(status){
+            bookChart.setOpacity(1);
+            memberChart.setOpacity(1);
+        }else{
+            bookChart.setOpacity(0);
+            memberChart.setOpacity(0);
+        }
     }
 
 }
